@@ -1,6 +1,6 @@
 export default function LoginForm() {
   return (
-    <div className="p-8 rounded-2xl shadow-2xl backdrop-blur-md text-white w-[320px] animate-fade-in">
+    <div className="bg-black p-8 rounded-2xl shadow-2xl backdrop-blur-md text-white w-[320px] animate-fade-in">
       <h2 className="text-2xl font-bold mb-4 text-center">Welcome, Stargazer ✨</h2>
       <input type="email" placeholder="Email" className="w-full mb-3 p-2 bg-black/30 rounded outline-none border-b-2 border-white" />
       <input type="password" placeholder="Password" className="w-full mb-3 p-2 bg-black/30 rounded outline-none border-b-2 border-white" />
