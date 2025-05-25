@@ -1,10 +1,10 @@
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
-import CosmicBackground from './three/CosmicBackground';
-import Calendar3D from './three/3dCalendar';
+import { Calendar3D } from 'three/calendar3d';
+import { CosmicBackground } from 'three/background';
 
 export default function App() {
-  const currDay = new Date()
+  const currDay = new Date();
   return (
     <div className="relative w-full h-screen">
       <Canvas>

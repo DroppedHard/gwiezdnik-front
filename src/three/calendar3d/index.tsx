@@ -1,7 +1,8 @@
 import { Html } from '@react-three/drei';
 import { useMemo, useState } from 'react';
 import * as THREE from 'three';
-import DayBox from '../components/DayBox';
+import DayBox from './DayBox';
+import { MonthTitle } from './MonthTitle';
 
 interface Calendar3DProps {
   year: number;
@@ -9,7 +10,7 @@ interface Calendar3DProps {
   sunBased?: boolean;
 }
 
-export default function Calendar3D({ year, month, sunBased }: Calendar3DProps) {
+export function Calendar3D({ year, month, sunBased }: Calendar3DProps) {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
   const calendar = useMemo(() => {
@@ -32,6 +33,7 @@ export default function Calendar3D({ year, month, sunBased }: Calendar3DProps) {
 
   return (
     <group position={new THREE.Vector3(0, 0, -5)}>
+      <MonthTitle year={year} month={month} />
       {calendar.map((day, index) => {
         const col = index % columns;
         const row = Math.floor(index / columns);
@@ -44,7 +46,7 @@ export default function Calendar3D({ year, month, sunBased }: Calendar3DProps) {
                 day={day}
                 selected={selectedDay === day}
                 onSelect={() => setSelectedDay(day!)}
-              />{' '}
+              />
             </Html>
           </group>
         );

@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import * as THREE from 'three';
 
-export default function CosmicBackground() {
+export function CosmicBackground() {
   const starsRef = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
