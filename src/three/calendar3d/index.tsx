@@ -41,7 +41,7 @@ export function Calendar3D({ year, month, sunBased }: Calendar3DProps) {
         const y = -row * cellSize + offsetY;
         return (
           <group key={index} position={[x, y, 0]}>
-            <Html transform occlude>
+            <Html transform occlude zIndexRange={[0, 10]}>
               <DayBox
                 day={day}
                 selected={selectedDay === day}

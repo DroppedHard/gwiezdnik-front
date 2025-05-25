@@ -59,14 +59,14 @@ export default function DayBox({ day, selected, onSelect }: DayBoxProps) {
   const baseColor = selected
     ? 'rgba(128, 90, 213, 0.5)' // purple
     : hovered
-    ? 'rgba(255,255,255,0.15)' // brighter on hover
-    : 'rgba(255,255,255,0.08)';
+      ? 'rgba(255,255,255,0.15)' // brighter on hover
+      : 'rgba(255,255,255,0.08)';
 
   const borderColor = selected
     ? 'rgba(168, 85, 247, 1)' // purple
     : hovered
-    ? 'rgba(255,255,255,0.3)'
-    : 'rgba(255,255,255,0.2)';
+      ? 'rgba(255,255,255,0.3)'
+      : 'rgba(255,255,255,0.2)';
 
   return (
     <div
@@ -90,6 +90,7 @@ export default function DayBox({ day, selected, onSelect }: DayBoxProps) {
         transformStyle: 'preserve-3d',
         cursor: day ? 'pointer' : 'default',
         transition: 'all 0.15s ease',
+        userSelect: 'none',
       }}
     >
       {day ?? ''}

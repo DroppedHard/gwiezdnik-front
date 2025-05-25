@@ -30,6 +30,7 @@ export function MonthTitle({ year, month, position = [0, 6, 0] }: MonthTitle3DPr
       center
       transform
       distanceFactor={10}
+      zIndexRange={[0, 10]}
       style={{
         fontSize: '1.8rem',
         fontWeight: 600,
@@ -37,6 +38,7 @@ export function MonthTitle({ year, month, position = [0, 6, 0] }: MonthTitle3DPr
         textShadow: '0 0 10px rgba(255,255,255,0.4)',
         backdropFilter: 'blur(6px)',
         pointerEvents: 'none',
+        userSelect: 'none',
       }}
     >
       {monthName} {year}
