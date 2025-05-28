@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { MONTH_NAMES_ARRAY } from 'utils/strings';
+import { formStyles } from 'utils/styles';
 
 export type MonthYearPickerProps = {
   selectedYear: number;
   selectedMonth: number;
   hideModal: () => void;
-  onSetDate?: (year: number, month: number) => void;
+  onSetDate: (year: number, month: number) => void;
 };
 
 export default function MonthYearPicker({
@@ -13,36 +15,43 @@ export default function MonthYearPicker({
   onSetDate,
   hideModal,
 }: MonthYearPickerProps) {
-  // TODO fix this to look better
+  const [month, setMonth] = useState(selectedMonth);
+  const [year, setYear] = useState(selectedYear);
+
+  const handleConfirm = () => {
+    onSetDate(year, month);
+    hideModal();
+  };
+
   return (
-    <>
-      <h2>Pick Month & Year</h2>
-      <select value={selectedMonth} onChange={(e) => (selectedMonth = parseInt(e.target.value))}>
-        {MONTH_NAMES_ARRAY.map((name, i) => (
-          <option key={i + 1} value={i + 1}>
-            {name}
-          </option>
-        ))}
-      </select>
+    <form style={formStyles.form}>
+      <h2 style={formStyles.title}>Pick Month & Year</h2>
+
+      <div style={formStyles.selectWrapper}>
+        <select
+          value={month}
+          onChange={(e) => setMonth(parseInt(e.target.value))}
+          style={formStyles.select}
+        >
+          {MONTH_NAMES_ARRAY.map((name, i) => (
+            <option key={i + 1} value={i + 1} style={formStyles.selectOption}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <span style={formStyles.arrow}>▼</span>
+      </div>
+
       <input
         type="number"
-        defaultValue={selectedYear}
-        onChange={(e) => (selectedYear = parseInt(e.target.value))}
-        style={{ marginLeft: '1rem' }}
+        value={year}
+        onChange={(e) => setYear(parseInt(e.target.value))}
+        style={formStyles.input}
       />
-      <div style={{ marginTop: '1rem' }}>
-        <button
-          onClick={() => {
-            onSetDate?.(selectedYear, selectedMonth);
-            hideModal();
-          }}
-        >
-          Confirm
-        </button>
-        <button onClick={hideModal} style={{ marginLeft: '1rem' }}>
-          Cancel
-        </button>
-      </div>
-    </>
+
+      <button type="button" onClick={handleConfirm} style={formStyles.button}>
+        Confirm
+      </button>
+    </form>
   );
 }

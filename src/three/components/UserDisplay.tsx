@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { Html } from '@react-three/drei';
+import LoginForm from 'components/modals/LoginForm';
+import { useModal, useUser } from 'services/context';
 
-interface UserDisplayProps {
-  text: string;
-  onClick?: () => void;
-}
-
-export function UserDisplay({ text, onClick }: UserDisplayProps) {
+const MAX_USERNAME_LENGTH = 10;
+// TODO positioning, size applicable to username
+export function UserDisplay() {
   const [hovered, setHovered] = useState(false);
+  const { showModal } = useModal();
+  const { user } = useUser();
+  const loggg = () => showModal(<LoginForm />);
 
   return (
     <Html position={[-5, 5.5, -4]} transform occlude zIndexRange={[0, 10]}>
       <button
-        onClick={onClick}
+        onClick={loggg}
         onMouseOver={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
+          border: 'none',
           padding: '12px 24px',
           borderRadius: '12px',
           whiteSpace: 'nowrap',
@@ -35,7 +38,11 @@ export function UserDisplay({ text, onClick }: UserDisplayProps) {
           WebkitBackdropFilter: 'blur(4px)',
         }}
       >
-        {text}
+        {user?.username
+          ? user?.username.length > MAX_USERNAME_LENGTH
+            ? user?.username.substring(0, MAX_USERNAME_LENGTH - 1)
+            : user?.username
+          : 'Log in'}
       </button>
     </Html>
   );
