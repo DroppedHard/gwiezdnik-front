@@ -14,7 +14,6 @@ declare global {
 
 const mouse = { x: 0, y: 0 };
 
-// Set up global mouse tracking only once (module-scoped)
 if (typeof window !== 'undefined' && !window.__daybox_mouse_listener__) {
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
@@ -57,13 +56,13 @@ export default function DayBox({ day, selected, onSelect }: DayBoxProps) {
   }, []);
 
   const baseColor = selected
-    ? 'rgba(128, 90, 213, 0.5)' // purple
+    ? 'rgba(128, 90, 213, 0.5)'
     : hovered
-      ? 'rgba(255,255,255,0.15)' // brighter on hover
+      ? 'rgba(255,255,255,0.15)'
       : 'rgba(255,255,255,0.08)';
 
   const borderColor = selected
-    ? 'rgba(168, 85, 247, 1)' // purple
+    ? 'rgba(168, 85, 247, 1)'
     : hovered
       ? 'rgba(255,255,255,0.3)'
       : 'rgba(255,255,255,0.2)';

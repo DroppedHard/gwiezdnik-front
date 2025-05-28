@@ -17,17 +17,16 @@ export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const showModal = (content: ReactNode) => {
     setModalContent(content);
-    requestAnimationFrame(() => setVisible(true)); // trigger animation
+    requestAnimationFrame(() => setVisible(true));
   };
 
   const hideModal = () => {
     setVisible(false);
   };
 
-  // Clear content after fade-out
   useEffect(() => {
     if (!visible && modalContent) {
-      const timeout = setTimeout(() => setModalContent(null), 300); // match CSS duration
+      const timeout = setTimeout(() => setModalContent(null), 300);
       return () => clearTimeout(timeout);
     }
   }, [visible, modalContent]);

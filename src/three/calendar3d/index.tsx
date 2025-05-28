@@ -1,56 +1,36 @@
-import { Html } from '@react-three/drei';
-import { useMemo, useState } from 'react';
-import * as THREE from 'three';
-import DayBox from './DayBox';
-import { MonthTitle } from './MonthTitle';
+import { useState, useCallback } from 'react';
+import { Calendar3D } from './Calendar3D';
+import { useCalendarNavigation } from './useCalendarNavigation';
 
-interface Calendar3DProps {
-  year: number;
-  month: number; // 1-based (Jan = 1)
-  sunBased?: boolean;
-}
+export function Calendar3DWrapper({
+  initialYear,
+  initialMonth,
+}: {
+  initialYear: number;
+  initialMonth: number;
+}) {
+  const [year, setYear] = useState(initialYear);
+  const [month, setMonth] = useState(initialMonth);
 
-export function Calendar3D({ year, month, sunBased }: Calendar3DProps) {
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const changeMonth = useCallback(
+    (delta: number) => {
+      const newDate = new Date(year, month - 1 + delta);
+      setYear(newDate.getFullYear());
+      setMonth(newDate.getMonth() + 1);
+    },
+    [year, month]
+  );
 
-  const calendar = useMemo(() => {
-    const firstDay = new Date(year, month, 1);
-    const totalDays = new Date(year, month - 1, 0).getDate();
-    const startDay = sunBased ? firstDay.getDay() : (firstDay.getDay() + 6) % 7;
-
-    const cells: (number | null)[] = [];
-    for (let i = 0; i < startDay; i++) cells.push(null);
-    for (let i = 1; i <= totalDays; i++) cells.push(i);
-
-    return cells;
-  }, [year, month, sunBased]);
-
-  const columns = 7;
-  const cellSize = 2;
-  const rows = Math.ceil(calendar.length / columns);
-  const offsetX = ((columns - 1) * cellSize) / 2;
-  const offsetY = ((rows - 1) * cellSize) / 2;
+  useCalendarNavigation(changeMonth);
 
   return (
-    <group position={new THREE.Vector3(0, 0, -5)}>
-      <MonthTitle year={year} month={month} />
-      {calendar.map((day, index) => {
-        const col = index % columns;
-        const row = Math.floor(index / columns);
-        const x = col * cellSize - offsetX;
-        const y = -row * cellSize + offsetY;
-        return (
-          <group key={index} position={[x, y, 0]}>
-            <Html transform occlude zIndexRange={[0, 10]}>
-              <DayBox
-                day={day}
-                selected={selectedDay === day}
-                onSelect={() => setSelectedDay(day!)}
-              />
-            </Html>
-          </group>
-        );
-      })}
-    </group>
+    <Calendar3D
+      year={year}
+      month={month}
+      onSetDate={(newYear, newMonth) => {
+        setYear(newYear);
+        setMonth(newMonth);
+      }}
+    />
   );
 }

@@ -1,16 +1,16 @@
 import { Stars } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
+// import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import * as THREE from 'three';
 
 export function CosmicBackground() {
   const starsRef = useRef<THREE.Group>(null);
 
-  useFrame((_, delta) => {
-    if (starsRef.current) {
-      starsRef.current.rotation.y += delta * 0.01;
-    }
-  });
+  // useFrame((_, delta) => {
+  //   // if (starsRef.current) {
+  //   //   starsRef.current.rotation.y += delta * 0.01;
+  //   // }
+  // });
   return (
     <>
       <ambientLight intensity={0.3} />

@@ -1,28 +1,32 @@
 import { Html } from '@react-three/drei';
+import MonthYearPicker from 'components/modals/MonthYearPicker';
+import { useModal } from 'services/context';
+import { MONTH_NAMES_ARRAY } from 'utils/strings';
 
-interface MonthTitle3DProps {
+interface MonthTitleProps {
   year: number;
-  month: number; // 1-based
+  month: number;
   position?: [x: number, y: number, z: number];
+  onSetDate: (year: number, month: number) => void;
 }
 
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+export function MonthTitle({ year, month, position = [0, 6, 0], onSetDate }: MonthTitleProps) {
+  const { showModal, hideModal } = useModal();
+  const monthName = MONTH_NAMES_ARRAY[month - 1] ?? 'Unknown';
 
-export function MonthTitle({ year, month, position = [0, 6, 0] }: MonthTitle3DProps) {
-  const monthName = MONTH_NAMES[month - 1] ?? 'Unknown';
+  const openPicker = () => {
+    let selectedYear = year;
+    let selectedMonth = month;
+
+    showModal(
+      <MonthYearPicker
+        selectedYear={selectedYear}
+        selectedMonth={selectedMonth}
+        hideModal={hideModal}
+        onSetDate={onSetDate}
+      />
+    );
+  };
 
   return (
     <Html
@@ -32,16 +36,21 @@ export function MonthTitle({ year, month, position = [0, 6, 0] }: MonthTitle3DPr
       distanceFactor={10}
       zIndexRange={[0, 10]}
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
         fontSize: '1.8rem',
         fontWeight: 600,
         color: 'white',
         textShadow: '0 0 10px rgba(255,255,255,0.4)',
         backdropFilter: 'blur(6px)',
-        pointerEvents: 'none',
         userSelect: 'none',
+        pointerEvents: 'auto',
       }}
     >
-      {monthName} {year}
+      <span onClick={openPicker} style={{ cursor: 'pointer' }}>
+        {monthName} {year}
+      </span>
     </Html>
   );
 }
