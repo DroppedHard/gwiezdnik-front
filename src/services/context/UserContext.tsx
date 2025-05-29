@@ -1,9 +1,11 @@
+import { UseMutateFunction } from '@tanstack/react-query';
 import { createContext, useContext, useState, ReactNode } from 'react';
-import type { User } from 'utils/types';
+import { useLogin } from 'services/hooks';
+import type { LoginCredentials, LoginResponse, User } from 'utils/types';
 
 interface UserContextValue {
   user: User | null;
-  login: (userData: User) => boolean;
+  login: UseMutateFunction<LoginResponse, Error, LoginCredentials, unknown>;
   register: (userData: User) => boolean;
   logout: () => boolean;
 }
@@ -12,14 +14,7 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-
-  const login = (userData: User) => {
-    setUser({ ...userData, username: 'Tester' });
-    console.log(userData);
-    // TODO save in local storage
-    // Optionally: store in localStorage/sessionStorage/cookie
-    return true;
-  };
+  const login = useLogin(setUser);
 
   const logout = () => {
     setUser(null);
@@ -34,7 +29,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, register }}>
+    <UserContext.Provider value={{ user, login: login.mutate, logout, register }}>
       {children}
     </UserContext.Provider>
   );

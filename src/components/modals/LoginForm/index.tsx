@@ -26,7 +26,7 @@ export default function LoginForm() {
 
     if (formData.email && formData.password) {
       // TODO - on fail do not close modal, but try again+ error with Toast or sth
-      if (login(formData)) hideModal();
+      login(formData, { onSuccess: hideModal });
     }
   };
 
