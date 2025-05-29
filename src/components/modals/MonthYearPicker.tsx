@@ -18,6 +18,10 @@ export default function MonthYearPicker({
   const [month, setMonth] = useState(selectedMonth);
   const [year, setYear] = useState(selectedYear);
 
+  const setCurrentDate = () => {
+    setMonth(new Date().getMonth());
+    setYear(new Date().getFullYear());
+  };
   const handleConfirm = () => {
     onSetDate(year, month);
     hideModal();
@@ -26,7 +30,9 @@ export default function MonthYearPicker({
   return (
     <form style={formStyles.form}>
       <h2 style={formStyles.title}>Pick Month & Year</h2>
-
+      <button type="button" onClick={setCurrentDate} style={formStyles.button}>
+        Current date
+      </button>
       <div style={formStyles.selectWrapper}>
         <select
           value={month}

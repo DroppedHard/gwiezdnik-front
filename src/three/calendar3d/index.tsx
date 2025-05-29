@@ -2,15 +2,10 @@ import { useState, useCallback } from 'react';
 import { Calendar3D } from './Calendar3D';
 import { useCalendarNavigation } from './useCalendarNavigation';
 
-export function Calendar3DWrapper({
-  initialYear,
-  initialMonth,
-}: {
-  initialYear: number;
-  initialMonth: number;
-}) {
-  const [year, setYear] = useState(initialYear);
-  const [month, setMonth] = useState(initialMonth);
+export function Calendar3DWrapper() {
+  const initDate = new Date();
+  const [year, setYear] = useState(initDate.getFullYear());
+  const [month, setMonth] = useState(initDate.getMonth());
 
   const changeMonth = useCallback(
     (delta: number) => {
@@ -27,6 +22,7 @@ export function Calendar3DWrapper({
     <Calendar3D
       year={year}
       month={month}
+      day={month === initDate.getMonth() ? initDate.getDate() : undefined}
       onSetDate={(newYear, newMonth) => {
         setYear(newYear);
         setMonth(newMonth);

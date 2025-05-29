@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 interface DayBoxProps {
   day: number | null;
   selected: boolean;
-  onSelect: () => void;
+  onSelect?: () => void;
 }
 
 declare global {
@@ -22,7 +22,7 @@ if (typeof window !== 'undefined' && !window.__daybox_mouse_listener__) {
   (window as Window).__daybox_mouse_listener__ = true;
 }
 
-export default function DayBox({ day, selected, onSelect }: DayBoxProps) {
+export default function DayBox({ day, selected }: DayBoxProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -70,7 +70,7 @@ export default function DayBox({ day, selected, onSelect }: DayBoxProps) {
   return (
     <div
       ref={ref}
-      onClick={() => day && onSelect()}
+      // onClick={() => day && onSelect()}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       style={{

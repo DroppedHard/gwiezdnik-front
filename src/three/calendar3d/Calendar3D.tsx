@@ -1,5 +1,5 @@
 import { Html } from '@react-three/drei';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import * as THREE from 'three';
 import DayBox from './DayBox';
 import { MonthTitle } from './MonthTitle';
@@ -7,12 +7,13 @@ import { MonthTitle } from './MonthTitle';
 interface Calendar3DProps {
   year: number;
   month: number;
+  day?: number;
   sunBased?: boolean;
   onSetDate: (year: number, month: number) => void;
 }
 
-export function Calendar3D({ year, month, sunBased, onSetDate }: Calendar3DProps) {
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+export function Calendar3D({ year, month, day, sunBased, onSetDate }: Calendar3DProps) {
+  // const [selectedDay, setSelectedDay] = useState<number>(day);
 
   const calendar = useMemo(() => {
     const firstDay = new Date(year, month - 1, 1);
@@ -35,7 +36,7 @@ export function Calendar3D({ year, month, sunBased, onSetDate }: Calendar3DProps
   return (
     <group position={new THREE.Vector3(0, 0, -5)}>
       <MonthTitle year={year} month={month} onSetDate={onSetDate} />
-      {calendar.map((day, index) => {
+      {calendar.map((dayNum, index) => {
         const col = index % columns;
         const row = Math.floor(index / columns);
         const x = col * cellSize - offsetX;
@@ -44,9 +45,9 @@ export function Calendar3D({ year, month, sunBased, onSetDate }: Calendar3DProps
           <group key={index} position={[x, y, 0]}>
             <Html transform occlude zIndexRange={[0, 10]}>
               <DayBox
-                day={day}
-                selected={selectedDay === day}
-                onSelect={() => setSelectedDay(day!)}
+                day={dayNum}
+                selected={day === dayNum}
+                // onSelect={() => setSelectedDay(dayNum!)}
               />
             </Html>
           </group>

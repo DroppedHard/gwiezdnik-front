@@ -23,7 +23,7 @@ export function useLogin(setUser: Dispatch<SetStateAction<User | null>>) {
     },
     onError: (error) => {
       console.error('Login failed:', error.message);
-      toast('Error encountered while logging in.');
+      toast.error('Encountered error while logging in.');
     },
   });
 }

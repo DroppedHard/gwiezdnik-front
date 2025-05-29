@@ -5,13 +5,11 @@ import { CosmicBackground } from 'three/background';
 import { UserDisplay } from 'three/components';
 
 export default function App() {
-  const currDay = new Date();
-
   return (
     <div className="app-container">
       <Canvas>
         <UserDisplay />
-        <Calendar3DWrapper initialYear={currDay.getFullYear()} initialMonth={currDay.getMonth()} />
+        <Calendar3DWrapper />
         <Suspense fallback={null}>
           <CosmicBackground />
         </Suspense>
