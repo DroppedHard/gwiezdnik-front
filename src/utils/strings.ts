@@ -1,3 +1,5 @@
+import { HoroscopePeriod } from './types';
+
 export enum MonthName {
   January = 1,
   February,
@@ -31,3 +33,9 @@ export enum ZodiacSign {
   Aquarius = 'Aquarius',
   Pisces = 'Pisces',
 }
+
+export const PERIOD_OPTIONS: Record<HoroscopePeriod, string> = {
+  day: 'day/today',
+  week: 'weekly',
+  month: 'monthly',
+};

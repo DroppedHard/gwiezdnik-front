@@ -4,6 +4,7 @@ interface DayBoxProps {
   day: number | null;
   selected: boolean;
   onSelect?: () => void;
+  displayOptions: () => void;
 }
 
 declare global {
@@ -22,7 +23,7 @@ if (typeof window !== 'undefined' && !window.__daybox_mouse_listener__) {
   (window as Window).__daybox_mouse_listener__ = true;
 }
 
-export default function DayBox({ day, selected }: DayBoxProps) {
+export default function DayBox({ day, selected, displayOptions }: DayBoxProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -70,7 +71,7 @@ export default function DayBox({ day, selected }: DayBoxProps) {
   return (
     <div
       ref={ref}
-      // onClick={() => day && onSelect()}
+      onClick={displayOptions}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       style={{

@@ -13,7 +13,7 @@ const horroscopeBackend = axios.create({
 // Add Authorization header from localStorage on each request
 horroscopeBackend.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('access-token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }

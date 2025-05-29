@@ -1,8 +1,11 @@
+import { ZodiacSign } from './strings';
+
 export type User = {
   username?: string;
   email: string;
   password?: string;
   birthDate?: string;
+  sign?: ZodiacSign;
 };
 
 export type LoginCredentials = {
@@ -19,3 +22,9 @@ export type LoginResponse = {
     date_of_birth: string;
   };
 };
+
+export type HoroscopeResponse = {
+  horoscope: string;
+};
+
+export type HoroscopePeriod = 'day' | 'week' | 'month';
