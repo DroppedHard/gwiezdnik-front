@@ -11,7 +11,6 @@ export default function LoginForm() {
     email: '',
     password: '',
   });
-  // const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,7 +24,6 @@ export default function LoginForm() {
     e.preventDefault();
 
     if (formData.email && formData.password) {
-      // TODO - on fail do not close modal, but try again+ error with Toast or sth
       login(formData, { onSuccess: hideModal });
     }
   };

@@ -13,14 +13,24 @@ export type LoginCredentials = {
   password: string;
 };
 
+export type RegisterCredentials = {
+  email: string;
+  name: string;
+  date_of_birth: string;
+  password: string;
+  confirmPassword?: string;
+};
+
 export type LoginResponse = {
   refresh: string;
   access: string;
-  user: {
-    name: string;
-    email: string;
-    date_of_birth: string;
-  };
+  user: UserResponse;
+};
+
+export type UserResponse = {
+  name: string;
+  email: string;
+  date_of_birth: string;
 };
 
 export type HoroscopeResponse = {

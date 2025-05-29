@@ -2,19 +2,20 @@ import { useState, FormEvent } from 'react';
 import { useModal, useUser } from 'services/context';
 import { formStyles } from 'utils/styles';
 import LoginForm from '../LoginForm';
+import { toast } from 'react-toastify';
+import { RegisterCredentials } from 'utils/types';
 
 export default function RegisterForm() {
   const { register } = useUser();
-  const { showModal, hideModal } = useModal();
+  const { showModal } = useModal();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterCredentials>({
     email: '',
-    username: '',
-    birthDate: '',
+    name: '',
+    date_of_birth: '',
     password: '',
     confirmPassword: '',
   });
-  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,21 +25,19 @@ export default function RegisterForm() {
     }));
   };
 
+  const openLoginModal = () => {
+    showModal(<LoginForm />);
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match.');
+      toast.error('Passwords do not match.');
       return;
     }
 
-    setError('');
-
-    if (register(formData)) hideModal();
-  };
-
-  const openLoginModal = () => {
-    showModal(<LoginForm />);
+    register(formData, { onSuccess: openLoginModal });
   };
 
   return (
@@ -56,18 +55,18 @@ export default function RegisterForm() {
       />
       <input
         type="text"
-        name="username"
+        name="name"
         placeholder="Username"
-        value={formData.username}
+        value={formData.name}
         onChange={handleChange}
         style={formStyles.input}
         required
       />
       <input
         type="date"
-        name="birthDate"
+        name="date_of_birth"
         placeholder="Birth Date"
-        value={formData.birthDate}
+        value={formData.date_of_birth}
         onChange={handleChange}
         style={formStyles.input}
         required
@@ -90,8 +89,6 @@ export default function RegisterForm() {
         style={formStyles.input}
         required
       />
-
-      {error && <p style={formStyles.error}>{error}</p>}
 
       <button type="submit" style={formStyles.button}>
         Register

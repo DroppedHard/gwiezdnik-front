@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Html } from '@react-three/drei';
 import LoginForm from 'components/modals/LoginForm';
 import { useModal, useUser } from 'services/context';
+import UserInfoPanel from 'components/modals/UserInfoPanel';
 
 const MAX_USERNAME_LENGTH = 10;
 // TODO positioning, size applicable to username
@@ -9,7 +10,10 @@ export function UserDisplay() {
   const [hovered, setHovered] = useState(false);
   const { showModal } = useModal();
   const { user } = useUser();
-  const loggg = () => showModal(<LoginForm />);
+  const loggg = () => {
+    if (user?.email) showModal(<UserInfoPanel />);
+    else showModal(<LoginForm />);
+  };
 
   return (
     <Html position={[-5, 5.5, -4]} transform occlude zIndexRange={[0, 10]}>
@@ -40,7 +44,7 @@ export function UserDisplay() {
       >
         {user?.username
           ? user?.username.length > MAX_USERNAME_LENGTH
-            ? user?.username.substring(0, MAX_USERNAME_LENGTH - 1)
+            ? user?.username.substring(0, MAX_USERNAME_LENGTH - 2) + '..'
             : user?.username
           : 'Log in'}
       </button>

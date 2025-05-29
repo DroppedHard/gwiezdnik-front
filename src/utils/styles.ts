@@ -85,4 +85,9 @@ export const formStyles: Record<string, React.CSSProperties> = {
     marginBottom: '10px',
     textAlign: 'center',
   },
+  infoItem: {
+    backgroundColor: 'transparent',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+    marginBottom: '8px',
+  },
 };

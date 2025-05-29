@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useFetchDateHoroscope, useFetchHoroscope } from 'services/hooks/HoroscopeFetcher';
 import { formStyles } from 'utils/styles';
-import { PERIOD_OPTIONS, ZodiacSign } from 'utils/strings';
+import { PERIOD_OPTIONS } from 'utils/strings';
 import { HoroscopePeriod } from 'utils/types';
+import { useUser } from 'services/context';
 
 type HoroscopeOptionalModalProps = {
   year: number;
@@ -13,16 +14,15 @@ type HoroscopeOptionalModalProps = {
 export default function HoroscopeOptionalModal({ year, month, day }: HoroscopeOptionalModalProps) {
   const [period, setPeriod] = useState<HoroscopePeriod>('day');
   const [triggerFetch, setTriggerFetch] = useState(false);
-
-  const zodiac = ZodiacSign.Sagittarius;
+  const { user } = useUser();
   const isToday = (() => {
     const now = new Date();
     return now.getFullYear() === year && now.getMonth() === month && now.getDate() === day;
   })();
 
-  const horoscope = useFetchHoroscope(zodiac, period, isToday && triggerFetch);
+  const horoscope = useFetchHoroscope(user?.sign!, period, isToday && triggerFetch);
 
-  const dateHoroscope = useFetchDateHoroscope(zodiac, `${year}-${month + 1}-${day}`, !isToday);
+  const dateHoroscope = useFetchDateHoroscope(user?.sign!, `${year}-${month + 1}-${day}`, !isToday);
 
   const handleFetchClick = () => {
     setTriggerFetch(true);
