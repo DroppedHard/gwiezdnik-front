@@ -71,7 +71,7 @@ export default function DayBox({ day, selected, displayOptions }: DayBoxProps) {
   return (
     <div
       ref={ref}
-      onClick={displayOptions}
+      onClick={day ? displayOptions : undefined}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       style={{

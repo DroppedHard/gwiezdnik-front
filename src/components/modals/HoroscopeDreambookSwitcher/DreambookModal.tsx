@@ -17,7 +17,7 @@ type DreambookModalProps = {
 
 export default function DreambookModal({ year, month, day }: DreambookModalProps) {
   const { user } = useUser();
-  const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
   const { data: entries, isLoading, isError, error, refetch } = useFetchDateDreambooks(dateKey);
   const postDreambook = usePostDreambok();

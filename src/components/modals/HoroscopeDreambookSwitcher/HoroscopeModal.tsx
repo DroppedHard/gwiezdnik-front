@@ -12,7 +12,7 @@ type HoroscopeOptionalModalProps = {
   day: number;
 };
 
-export default function HoroscopeOptionalModal({ year, month, day }: HoroscopeOptionalModalProps) {
+export default function HoroscopeModal({ year, month, day }: HoroscopeOptionalModalProps) {
   const [period, setPeriod] = useState<HoroscopePeriod>('day');
   const [triggerFetch, setTriggerFetch] = useState(false);
   const { user } = useUser();
@@ -37,11 +37,15 @@ export default function HoroscopeOptionalModal({ year, month, day }: HoroscopeOp
 
   const isToday = (() => {
     const now = new Date();
-    return now.getFullYear() === year && now.getMonth() === month && now.getDate() === day;
+    return now.getFullYear() === year && now.getMonth() + 1 === month && now.getDate() === day;
   })();
 
   const horoscope = useFetchHoroscope(user.sign!, period, isToday && triggerFetch);
-  const dateHoroscope = useFetchDateHoroscope(user.sign!, `${year}-${month + 1}-${day}`, !isToday);
+  const dateHoroscope = useFetchDateHoroscope(
+    user.sign!,
+    `${year}-${month > 9 ? month : '0' + month}-${day > 9 ? day : '0' + day}`,
+    !isToday
+  );
 
   const handleFetchClick = () => setTriggerFetch(true);
 

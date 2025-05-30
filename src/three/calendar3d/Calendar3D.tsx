@@ -1,10 +1,9 @@
 import { Html } from '@react-three/drei';
+import DreambookModalSwitcher from 'components/modals/HoroscopeDreambookSwitcher';
 import { useMemo } from 'react';
-import * as THREE from 'three';
+import { useModal } from 'services/context';
 import DayBox from './DayBox';
 import { MonthTitle } from './MonthTitle';
-import { useModal } from 'services/context';
-import DreambookModalSwitcher from 'components/modals/HoroscopeDreambookSwitcher';
 
 interface Calendar3DProps {
   year: number;
@@ -12,10 +11,10 @@ interface Calendar3DProps {
   day?: number;
   sunBased?: boolean;
   onSetDate: (year: number, month: number) => void;
+  scale?: number; // 💡 add scale prop
 }
 
-export function Calendar3D({ year, month, day, sunBased, onSetDate }: Calendar3DProps) {
-  // const [selectedDay, setSelectedDay] = useState<number>(day);
+export function Calendar3D({ year, month, day, sunBased, onSetDate, scale = 1 }: Calendar3DProps) {
   const { showModal } = useModal();
 
   const displayOptions = (day: number) => {
@@ -41,7 +40,7 @@ export function Calendar3D({ year, month, day, sunBased, onSetDate }: Calendar3D
   const offsetY = ((rows - 1) * cellSize) / 2;
 
   return (
-    <group position={new THREE.Vector3(0, 0, -5)}>
+    <group scale={[scale, scale, scale]} position={[0, 0, -5]}>
       <MonthTitle year={year} month={month} onSetDate={onSetDate} />
       {calendar.map((dayNum, index) => {
         const col = index % columns;

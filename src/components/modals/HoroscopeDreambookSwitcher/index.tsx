@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import HoroscopeOptionalModal from './HoroscopeOptionalModal';
+import HoroscopeModal from './HoroscopeModal';
 import DreambookModal from './DreambookModal';
 
 type ModalSwitcherProps = {
@@ -12,13 +12,8 @@ export default function DreambookModalSwitcher({ year, month, day }: ModalSwitch
   const [activeTab, setActiveTab] = useState<'horoscope' | 'dreambook'>('horoscope');
 
   const containerStyle: React.CSSProperties = {
-    // width: '100%',
-    // maxWidth: '400px',
     margin: '0 auto',
-    // backgroundColor: 'rgba(0,0,0,0.5)',
-    // borderRadius: '8px',
     overflow: 'hidden',
-    // border: '1px solid white',
   };
 
   const headerStyle: React.CSSProperties = {
@@ -26,8 +21,6 @@ export default function DreambookModalSwitcher({ year, month, day }: ModalSwitch
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '12px 16px',
-    // backgroundColor: '#1f1f1f',
-    // borderBottom: '1px solid #333',
   };
 
   const titleStyle: React.CSSProperties = {
@@ -51,7 +44,8 @@ export default function DreambookModalSwitcher({ year, month, day }: ModalSwitch
     <div style={containerStyle}>
       <div style={headerStyle}>
         <h3 style={titleStyle}>
-          {activeTab === 'horoscope' ? 'Horoscope' : 'Dreambook'} – {year}-{month + 1}-{day}
+          {activeTab === 'horoscope' ? 'Horoscope' : 'Dreambook'} – {year}-
+          {month > 9 ? month : '0' + month}-{day > 9 ? day : '0' + day}
         </h3>
         <button
           onClick={() => setActiveTab(activeTab === 'horoscope' ? 'dreambook' : 'horoscope')}
@@ -63,7 +57,7 @@ export default function DreambookModalSwitcher({ year, month, day }: ModalSwitch
 
       <div>
         {activeTab === 'horoscope' ? (
-          <HoroscopeOptionalModal year={year} month={month} day={day} />
+          <HoroscopeModal year={year} month={month} day={day} />
         ) : (
           <DreambookModal year={year} month={month} day={day} />
         )}

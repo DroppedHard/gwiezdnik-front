@@ -7,6 +7,7 @@ type ModalContent = ReactNode | null;
 interface ModalContextType {
   showModal: (content: ReactNode) => void;
   hideModal: () => void;
+  isVisible: boolean;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -32,7 +33,7 @@ export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [visible, modalContent]);
 
   return (
-    <ModalContext.Provider value={{ showModal, hideModal }}>
+    <ModalContext.Provider value={{ showModal, hideModal, isVisible: visible }}>
       {children}
       {modalContent &&
         createPortal(

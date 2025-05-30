@@ -36,7 +36,7 @@ export default function RegisterForm() {
       toast.error('Passwords do not match.');
       return;
     }
-
+    if (formData.date_of_birth.length == 1) formData.date_of_birth = '0' + formData.date_of_birth;
     register(formData, { onSuccess: openLoginModal });
   };
 
