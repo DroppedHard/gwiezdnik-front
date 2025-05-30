@@ -3,7 +3,8 @@ import { useFetchDateHoroscope, useFetchHoroscope } from 'services/hooks/Horosco
 import { formStyles } from 'utils/styles';
 import { PERIOD_OPTIONS } from 'utils/strings';
 import { HoroscopePeriod } from 'utils/types';
-import { useUser } from 'services/context';
+import { useModal, useUser } from 'services/context';
+import LoginForm from '../LoginForm';
 
 type HoroscopeOptionalModalProps = {
   year: number;
@@ -15,18 +16,34 @@ export default function HoroscopeOptionalModal({ year, month, day }: HoroscopeOp
   const [period, setPeriod] = useState<HoroscopePeriod>('day');
   const [triggerFetch, setTriggerFetch] = useState(false);
   const { user } = useUser();
+  const { showModal } = useModal();
+
+  if (!user) {
+    return (
+      <div style={formStyles.form}>
+        <h2 style={formStyles.title}>Horoscope</h2>
+        <p style={{ color: 'white', fontSize: '14px', textAlign: 'center' }}>
+          This feature is only available to logged-in users.
+        </p>
+        <p style={formStyles.footerText}>
+          <a onClick={() => showModal(<LoginForm />)} style={formStyles.link}>
+            Log in
+          </a>{' '}
+          to access your horoscope.
+        </p>
+      </div>
+    );
+  }
+
   const isToday = (() => {
     const now = new Date();
     return now.getFullYear() === year && now.getMonth() === month && now.getDate() === day;
   })();
 
-  const horoscope = useFetchHoroscope(user?.sign!, period, isToday && triggerFetch);
+  const horoscope = useFetchHoroscope(user.sign!, period, isToday && triggerFetch);
+  const dateHoroscope = useFetchDateHoroscope(user.sign!, `${year}-${month + 1}-${day}`, !isToday);
 
-  const dateHoroscope = useFetchDateHoroscope(user?.sign!, `${year}-${month + 1}-${day}`, !isToday);
-
-  const handleFetchClick = () => {
-    setTriggerFetch(true);
-  };
+  const handleFetchClick = () => setTriggerFetch(true);
 
   return (
     <div style={formStyles.form}>
@@ -60,7 +77,15 @@ export default function HoroscopeOptionalModal({ year, month, day }: HoroscopeOp
           </button>
 
           {horoscope.data && (
-            <div style={{ color: 'white', fontSize: '14px', marginTop: '1rem' }}>
+            <div
+              style={{
+                color: 'white',
+                fontSize: '14px',
+                marginTop: '1rem',
+                overflow: 'overlay',
+                maxHeight: '300px',
+              }}
+            >
               <strong>Result:</strong>
               <p>{horoscope.data.horoscope}</p>
             </div>
@@ -68,13 +93,21 @@ export default function HoroscopeOptionalModal({ year, month, day }: HoroscopeOp
         </>
       ) : (
         <>
-          <h2 style={formStyles.title}>Horoscope for {`${year}-${month + 1}-${day}`}:</h2>
+          {/* <h2 style={formStyles.title}>Horoscope for {`${year}-${month + 1}-${day}`}:</h2> */}
           {dateHoroscope.isLoading && <p style={{ color: 'white' }}>Loading...</p>}
           {dateHoroscope.error && (
-            <p style={{ color: 'red' }}>Error fetching horoscope: {dateHoroscope.error.message}</p>
+            <p style={{ color: 'red' }}>Error: {dateHoroscope.error.message}</p>
           )}
           {dateHoroscope.data && (
-            <div style={{ color: 'white', fontSize: '14px', marginTop: '1rem' }}>
+            <div
+              style={{
+                color: 'white',
+                fontSize: '14px',
+                marginTop: '1rem',
+                overflow: 'overlay',
+                maxHeight: '300px',
+              }}
+            >
               <strong>Result:</strong>
               <p>{dateHoroscope.data.horoscope}</p>
             </div>

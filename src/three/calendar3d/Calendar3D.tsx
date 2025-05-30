@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import * as THREE from 'three';
 import DayBox from './DayBox';
 import { MonthTitle } from './MonthTitle';
-import HorroscopeOptionaModal from 'components/modals/CalendarDayOptions';
 import { useModal } from 'services/context';
+import DreambookModalSwitcher from 'components/modals/HoroscopeDreambookSwitcher';
 
 interface Calendar3DProps {
   year: number;
@@ -19,7 +19,7 @@ export function Calendar3D({ year, month, day, sunBased, onSetDate }: Calendar3D
   const { showModal } = useModal();
 
   const displayOptions = (day: number) => {
-    showModal(<HorroscopeOptionaModal year={year} month={month} day={day} />);
+    showModal(<DreambookModalSwitcher year={year} month={month} day={day} />);
   };
 
   const calendar = useMemo(() => {

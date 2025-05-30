@@ -38,3 +38,10 @@ export type HoroscopeResponse = {
 };
 
 export type HoroscopePeriod = 'day' | 'week' | 'month';
+
+export type DreambookRecord = {
+  id?: number;
+  title: string;
+  description: string;
+  created_at: string;
+};

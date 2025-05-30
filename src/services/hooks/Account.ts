@@ -96,6 +96,7 @@ export function useRestoreSession(setUser: Dispatch<SetStateAction<User | null>>
     onError: (error) => {
       console.error('Login failed:', error.message);
       toast.error('Encountered error while restoring session.');
+      localStorage.clear();
     },
   });
 }
